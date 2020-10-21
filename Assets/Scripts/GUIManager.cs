@@ -85,7 +85,6 @@ public class GUIManager : MonoBehaviour
 
     public void ShowGameOver(int puntuation)
     {
-        puntuation = 100000;
         _gameStatus = GameStatus.STOPPED;
         _gamePanelGO.SetActive(false);
         _gameOverPanelGO.SetActive(true);

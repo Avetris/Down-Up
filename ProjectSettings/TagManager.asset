@@ -5,7 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - trampoline
-  - lava
+  - cloud
+  - end_object
+  - obstacle
   layers:
   - Default
   - TransparentFX

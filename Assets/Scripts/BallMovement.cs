@@ -6,39 +6,42 @@ public class BallMovement : MonoBehaviour
 {
     [Header("Repulsion Force")]
     public float REPULSION_FORCE = 10f;
-    public float MOVEMENT_FORCE = 100.0f;
+    public float MOVEMENT_FORCE = 25000.0f;
+    public float CLOUD_BRAKE = 0.95f;
 
     public GameObject _trampolineGO;
     public Vector3 _initialPosition = new Vector3(0, 0, 0);
 
-    public GUIManager GUIManager;
-
-    Rigidbody _rigidbody;
+    [HideInInspector]
+    public GUIManager _GUIManager;
+    [HideInInspector]
+    public AreaManager _areaManager;
+    [HideInInspector]
+    public Rigidbody2D _rigidbody;
     int _maxHeight = 0;
 
-    #if UNITY_EDITOR
-        //inside class
-        Vector2 firstPressPos;
-        Vector2 secondPressPos;
-        Vector2 currentSwipe;
-    #endif
+    Vector2 _firstPressPos;
+    bool _swipeStarted = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _GUIManager = FindObjectOfType<GUIManager>();
+        _areaManager = AreaManager.Instance;
         ResetGame();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!GUIManager.IsStopped())
+        if (!_GUIManager.IsStopped())
         {
+            transform.Rotate(new Vector3(_rigidbody.velocity.y, _rigidbody.velocity.x, 0));
             if (this.transform.localPosition.y > _maxHeight)
             {
                 _maxHeight = Mathf.FloorToInt(this.transform.localPosition.y);
-                GUIManager.SetScore(_maxHeight);                
+                _GUIManager.SetScore(_maxHeight);                
             }
             else if (this.transform.localPosition.y < _trampolineGO.transform.localPosition.y)
             {
@@ -54,24 +57,28 @@ public class BallMovement : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        
+    }
+
 #if UNITY_EDITOR
     public void SwipeMouse()
     {
         if (Input.GetMouseButtonDown(0))
         {
             //save began touch 2d point
-            firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            _firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            _swipeStarted = true;
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && _swipeStarted)
         {
-            //save ended touch 2d point
-            secondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-
             //create vector from the two points
-            currentSwipe = new Vector2(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
+            Vector2 currentSwipe = new Vector2(Input.mousePosition.x - _firstPressPos.x, Input.mousePosition.y - _firstPressPos.y);
 
             //normalize the 2d vector
             currentSwipe.Normalize();
+            _swipeStarted = false;
 
             if (currentSwipe.x != 0)
                 Move(currentSwipe.x > 0);
@@ -79,29 +86,51 @@ public class BallMovement : MonoBehaviour
     }
 #else
     public void SwipeMobile()
-    {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+    {        
+        if(Input.touchCount > 0)
         {
+            if(Input.GetTouch(0).phase == TouchPhase.Began){
+                _firstPressPos = Input.GetTouch(0).position;
+                _swipeStarted = true;
+            }else if(Input.GetTouch(0).phase == TouchPhase.Moved && _swipeStarted){
+                Vector2 currentSwipe = Input.GetTouch(0).deltaPosition;
+                _swipeStarted = false;
 
-            // Get movement of the finger since last frame
-            Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+                //normalize the 2d vector
+                currentSwipe.Normalize();
 
-            if (touchDeltaPosition.x != 0)
-                Move(touchDeltaPosition.x > 0);
+                if (currentSwipe.x != 0)
+                    Move(currentSwipe.x > 0);
+            }
         }
     }
 #endif
-
-    private void OnCollisionExit(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(_rigidbody.velocity);
+        //Debug.Log(_rigidbody.velocity);
         if ("trampoline".Equals(collision.gameObject.tag))
         {
-            _rigidbody.AddForce(_rigidbody.velocity * REPULSION_FORCE, ForceMode.Impulse);
+            _rigidbody.AddForce(_rigidbody.velocity * REPULSION_FORCE, ForceMode2D.Impulse);
             //_rigidbody.velocity = _rigidbody.velocity + _rigidbody.velocity.normalized * REPULSION_FORCE;
-        }else if ("lava".Equals(collision.gameObject.tag))
+        }else if("obstacle".Equals(collision.gameObject.tag))
         {
             EndGame();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ("end_object".Equals(collision.gameObject.tag))
+        {
+            EndGame();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if ("cloud".Equals(other.gameObject.tag))
+        {
+            _rigidbody.velocity *= CLOUD_BRAKE;
         }
     }
 
@@ -116,26 +145,30 @@ public class BallMovement : MonoBehaviour
         {
             direction = Vector3.left;
         }
-        _rigidbody.AddForce(direction * MOVEMENT_FORCE, ForceMode.Impulse);
+        _rigidbody.AddForce(direction * MOVEMENT_FORCE, ForceMode2D.Impulse);
     }
 
     public void StartGame()
     {
-        _rigidbody.useGravity = true;
+        _rigidbody.gravityScale = 1;
     }
 
     public void ResetGame()
     {
-        _rigidbody.useGravity = false;
+        _maxHeight = 0;
+        _swipeStarted = false;
+        _rigidbody.gravityScale = 0;
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.freezeRotation = false;
         this.transform.position = _initialPosition;
+        this.transform.rotation = Quaternion.Euler(0,0,0);
     }
     private void EndGame()
     {
-        _rigidbody.useGravity = false;
+        _rigidbody.gravityScale = 0;
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.freezeRotation = true;
-        GUIManager.ShowGameOver(_maxHeight);
+        _areaManager.Restart();
+        _GUIManager.ShowGameOver(_maxHeight);
     }
 }
