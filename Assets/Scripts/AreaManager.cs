@@ -52,7 +52,7 @@ public class AreaManager : MonoBehaviour
     private void Update()
     {
         if (!GUIManager.IsStopped() && !_obstacleInstantiated && _player._rigidbody.velocity.y > 0)
-        {
+        {            
             float aux = _player.transform.localPosition.y + (_player._rigidbody.velocity.y);
             if (aux >= _height && aux - _height > OBSTACLES_INTER_DISTANCE)
             {
@@ -70,6 +70,11 @@ public class AreaManager : MonoBehaviour
     private void InstantiateObstacle()
     {
         _obstacleInstantiated = true;
+
+        if (_height <= (_player.transform.position.y + 20))
+        {
+            _height = _player.transform.position.y + 20;
+        }
 
         GameObject objectToInstantiate = _posibleObstacles[Random.Range(0, _posibleObstacles.Length)];
         Vector3 position = Vector3.zero;

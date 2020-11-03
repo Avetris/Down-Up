@@ -13,7 +13,7 @@ public class BallMovement : MonoBehaviour
     public Vector3 _initialPosition = new Vector3(0, 0, 0);
 
     [HideInInspector]
-    public GUIManager _GUIManager;
+    GUIManager _GUIManager;
     [HideInInspector]
     public AreaManager _areaManager;
     [HideInInspector]
@@ -23,11 +23,14 @@ public class BallMovement : MonoBehaviour
     Vector2 _firstPressPos;
     bool _swipeStarted = false;
 
+    TrailRenderer _trailRenderer;
+
     // Start is called before the first frame update
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _GUIManager = FindObjectOfType<GUIManager>();
+        _trailRenderer = GetComponent<TrailRenderer>();
         _areaManager = AreaManager.Instance;
         ResetGame();
     }
@@ -160,8 +163,10 @@ public class BallMovement : MonoBehaviour
         _rigidbody.gravityScale = 0;
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.freezeRotation = false;
+        _trailRenderer.enabled = false;
         this.transform.position = _initialPosition;
         this.transform.rotation = Quaternion.Euler(0,0,0);
+        _trailRenderer.enabled = true;
     }
     private void EndGame()
     {

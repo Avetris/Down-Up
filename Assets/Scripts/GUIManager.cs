@@ -68,6 +68,7 @@ public class GUIManager : MonoBehaviour
     public void EndTutorial()
     {
         _gameStatus = GameStatus.PLAYING;
+        _tutorialPanelGO.SetActive(false);
         _playerBall.StartGame();
     }
     
