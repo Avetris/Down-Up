@@ -1,41 +1,89 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Constants;
 
 public class ObstacleMovement : MonoBehaviour
 {
+    public ObstaclesMovement _obstacleMovement;
+    public Vector3[] _spawnPositions = new Vector3[0];
+    public Vector3[] _endPositions = new Vector3[0];
+    public float _stepSpeed = 1.0f;
 
-    public float _spawnPosition = 8.0f;
-    public float _speed = 0.0f;
-    public bool _rightInitialDirection = true;
     private Animator _animator;
+
+    private Vector3[] _currentPos = new Vector3[2];
+    private bool _waitingForSpawn = false;
 
     private void Start()
     {
-        if (!_rightInitialDirection)
-        {
-            _speed *= -1;
-        }
+        Initialize();
         _animator = GetComponent<Animator>();
-        checkAnimation();
+        CheckAnimation();
+    }
+
+    public void Initialize()
+    {
+        int selectedPosition = Random.Range(0, _spawnPositions.Length);
+        _currentPos = new Vector3[2] {_spawnPositions[selectedPosition],_endPositions[selectedPosition]};
+
+        _currentPos[0].z = transform.position.z;
+        _currentPos[1].z = transform.position.z;
+
+        _currentPos[0].y += transform.position.y;
+        _currentPos[1].y += transform.position.y;
+
+
+        transform.position = _currentPos[0];
+
+        CheckAnimation();
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.transform.Translate(Vector3.right * _speed * Time.deltaTime, Space.World);
-        if(Mathf.Abs(this.transform.localPosition.x) > _spawnPosition)
+        if (!_waitingForSpawn)
         {
-            _speed = Mathf.Abs(_speed) * (this.transform.localPosition.x > 0 ? -1 : 1) ;
-            checkAnimation();
+            transform.position = Vector3.MoveTowards(transform.position, _currentPos[1], _stepSpeed);
+            if (Vector3.Distance(transform.position, _currentPos[1]) < 0.001f)
+            {
+                if (_obstacleMovement == ObstaclesMovement.LEFT_RIGHT)
+                {
+                    SwitchDirection();
+                    CheckAnimation();
+                }
+                else if (_obstacleMovement == ObstaclesMovement.DIAGONAL)
+                {
+                    _waitingForSpawn = true;
+                    Invoke("MoveToInitial", 1f);
+
+                }
+            }
         }
     }
 
-    private void checkAnimation()
+    private void MoveToInitial()
+    {
+        transform.position = _currentPos[0];
+        _waitingForSpawn = false;
+    }
+
+    private void SwitchDirection()
+    {
+        Vector3 aux = _currentPos[0];
+        _currentPos[0] = _currentPos[1];
+        _currentPos[1] = aux;
+    }
+
+    private void CheckAnimation()
     {
         if(_animator != null)
         {
-            _animator.SetFloat("Speed", _speed);
+            float speedX = _currentPos[1].x - transform.position.x;
+            float speedY = _currentPos[1].y - transform.position.y;
+            
+            if(speedX != 0) _animator.SetFloat("SpeedX", speedX);
+            if(speedY != 0) _animator.SetFloat("SpeedY", speedY);
         }
     }
 }

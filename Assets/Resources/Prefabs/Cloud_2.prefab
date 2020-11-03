@@ -45,9 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca45c758108543c4e8a26e83382b4a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnPosition: 9
-  _speed: 10
-  _rightInitialDirection: 1
+  _obstacleMovement: 0
+  _spawnPositions:
+  - {x: 8.5, y: 0, z: 0}
+  - {x: -8.5, y: 0, z: 0}
+  _endPositions:
+  - {x: -8.5, y: 0, z: 0}
+  - {x: 8.5, y: 0, z: 0}
+  _stepSpeed: 0.1
 --- !u!60 &8933192239497239070
 PolygonCollider2D:
   m_ObjectHideFlags: 0

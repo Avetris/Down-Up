@@ -6,8 +6,8 @@ public class BallMovement : MonoBehaviour
 {
     [Header("Repulsion Force")]
     public float REPULSION_FORCE = 10f;
-    public float MOVEMENT_FORCE = 25000.0f;
-    public float CLOUD_BRAKE = 0.95f;
+    public float MOVEMENT_FORCE = 500f;
+    public float CLOUD_BRAKE = 0.90f;
 
     public GameObject _trampolineGO;
     public Vector3 _initialPosition = new Vector3(0, 0, 0);

@@ -45,9 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca45c758108543c4e8a26e83382b4a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnPosition: 10
-  _speed: 5
-  _rightInitialDirection: 1
+  _obstacleMovement: 0
+  _spawnPositions:
+  - {x: 15, y: 0, z: 0}
+  - {x: -15, y: 0, z: 0}
+  _endPositions:
+  - {x: -15, y: 0, z: 0}
+  - {x: 15, y: 0, z: 0}
+  _stepSpeed: 0.25
 --- !u!60 &2223148387522167539
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -147,11 +152,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e4517c298d091d0499b08981344c5398, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.2
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e4517c298d091d0499b08981344c5398, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.13
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: e4517c298d091d0499b08981344c5398, type: 3}
       propertyPath: m_Materials.Array.data[0]

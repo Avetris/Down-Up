@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static Constants;
 
 public class GUIManager : MonoBehaviour
 {
-    enum GameStatus{STOPPED,TUTORIAL,PLAYING}
-
     public BallMovement _playerBall;
 
     [Header("Menu GUI")]
