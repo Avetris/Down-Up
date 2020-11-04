@@ -11,10 +11,15 @@ public class ObstacleMovement : MonoBehaviour
     public Vector3 _rotationVector = Vector3.zero;
     public float _stepSpeed = 1.0f;
 
+    public ParticleSystem _particleSystem;
+    public bool _particleStopInNegative = true;
+    public bool[] _particleAxis = new bool[2] { false, false };
+
     private Animator _animator;
 
     private Vector3[] _currentPos = new Vector3[2];
     private bool _waitingForSpawn = false;
+
 
     private void Start()
     {
@@ -90,13 +95,23 @@ public class ObstacleMovement : MonoBehaviour
 
     private void CheckAnimation()
     {
-        if(_animator != null)
-        {
-            float speedX = _currentPos[1].x - transform.position.x;
-            float speedY = _currentPos[1].y - transform.position.y;
-            
+        float speedX = _currentPos[1].x - transform.position.x;
+        float speedY = _currentPos[1].y - transform.position.y;
+        if (_animator != null)
+        {            
             if(speedX != 0) _animator.SetFloat("SpeedX", speedX);
             if(speedY != 0) _animator.SetFloat("SpeedY", speedY);
+        }
+        else if (_particleSystem != null)
+        {
+            if ((_particleAxis[0] && ((_particleStopInNegative && speedX < 0) || (!_particleStopInNegative && speedX > 0))) ||
+                (_particleAxis[1] && ((_particleStopInNegative && speedY < 0) || (!_particleStopInNegative && speedY > 0)))) {
+                _particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            }
+            else if ((_particleAxis[0] && ((_particleStopInNegative && speedX > 0) || (!_particleStopInNegative && speedX < 0))) ||
+                (_particleAxis[1] && ((_particleStopInNegative && speedY > 0) || (!_particleStopInNegative && speedY < 0)))) {
+                _particleSystem.Play(true);
+            }
         }
     }
 }
