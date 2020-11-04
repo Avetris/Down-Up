@@ -1,14 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Constants;
 
 public class BallMovement : MonoBehaviour
 {
-    [Header("Repulsion Force")]
-    public float REPULSION_FORCE = 10f;
-    public float MOVEMENT_FORCE = 500f;
-    public float CLOUD_BRAKE = 0.90f;
-
     public GameObject _trampolineGO;
     public Vector3 _initialPosition = new Vector3(0, 0, 0);
 
@@ -129,11 +125,23 @@ public class BallMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if ("cloud".Equals(other.gameObject.tag))
+        if ("cloud".Equals(collision.gameObject.tag))
         {
             _rigidbody.velocity *= CLOUD_BRAKE;
+        }
+        else if ("vortex".Equals(collision.gameObject.tag))
+        {
+            float xValue = collision.transform.position.x;
+            if (transform.position.x > xValue)
+            {
+                transform.Translate(Vector3.left * Time.deltaTime);
+            }
+            else if (transform.position.x < xValue)
+            {
+                transform.Translate(Vector3.right * Time.deltaTime);
+            }
         }
     }
 

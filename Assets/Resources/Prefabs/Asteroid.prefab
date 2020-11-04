@@ -99,12 +99,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _obstacleMovement: 1
   _spawnPositions:
-  - {x: 8, y: 3, z: 0}
-  - {x: -8, y: 3, z: 0}
+  - {x: 8, y: 0, z: 0}
+  - {x: -8, y: 0, z: 0}
   _endPositions:
   - {x: -8, y: -5, z: 0}
   - {x: 8, y: -5, z: 0}
+  _rotationVector: {x: 0, y: 0, z: 0}
   _stepSpeed: 0.2
+  _particleSystem: {fileID: 0}
+  _particleStopInNegative: 1
+  _particleAxis: 0000
 --- !u!58 &289676182162891670
 CircleCollider2D:
   m_ObjectHideFlags: 0

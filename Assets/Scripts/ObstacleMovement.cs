@@ -79,7 +79,7 @@ public class ObstacleMovement : MonoBehaviour
                 {
                     _waitingForSpawn = true;
                     transform.position = _currentPos[0];
-                    Invoke("Initialize", 1f);
+                    Invoke("Initialize", 0.5f);
 
                 }
             }
@@ -95,23 +95,31 @@ public class ObstacleMovement : MonoBehaviour
 
     private void CheckAnimation()
     {
-        float speedX = _currentPos[1].x - transform.position.x;
-        float speedY = _currentPos[1].y - transform.position.y;
-        if (_animator != null)
-        {            
-            if(speedX != 0) _animator.SetFloat("SpeedX", speedX);
-            if(speedY != 0) _animator.SetFloat("SpeedY", speedY);
-        }
-        else if (_particleSystem != null)
+        if (_obstacleMovement != ObstaclesMovement.STATIC)
         {
-            if ((_particleAxis[0] && ((_particleStopInNegative && speedX < 0) || (!_particleStopInNegative && speedX > 0))) ||
-                (_particleAxis[1] && ((_particleStopInNegative && speedY < 0) || (!_particleStopInNegative && speedY > 0)))) {
-                _particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            if (_animator != null)
+            {
+                float speedX = _currentPos[1].x - transform.position.x;
+                float speedY = _currentPos[1].y - transform.position.y;
+                if (speedX != 0) _animator.SetFloat("SpeedX", speedX);
+                if (speedY != 0) _animator.SetFloat("SpeedY", speedY);
             }
-            else if ((_particleAxis[0] && ((_particleStopInNegative && speedX > 0) || (!_particleStopInNegative && speedX < 0))) ||
-                (_particleAxis[1] && ((_particleStopInNegative && speedY > 0) || (!_particleStopInNegative && speedY < 0)))) {
-                _particleSystem.Play(true);
+            else if (_particleSystem != null)
+            {
+                float speedX = _currentPos[1].x - transform.position.x;
+                float speedY = _currentPos[1].y - transform.position.y;
+                if ((_particleAxis[0] && ((_particleStopInNegative && speedX < 0) || (!_particleStopInNegative && speedX > 0))) ||
+                    (_particleAxis[1] && ((_particleStopInNegative && speedY < 0) || (!_particleStopInNegative && speedY > 0))))
+                {
+                    _particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                }
+                else if ((_particleAxis[0] && ((_particleStopInNegative && speedX > 0) || (!_particleStopInNegative && speedX < 0))) ||
+                    (_particleAxis[1] && ((_particleStopInNegative && speedY > 0) || (!_particleStopInNegative && speedY < 0))))
+                {
+                    _particleSystem.Play(true);
+                }
             }
+
         }
     }
 }

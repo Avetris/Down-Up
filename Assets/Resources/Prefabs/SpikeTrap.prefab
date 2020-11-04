@@ -129,11 +129,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _obstacleMovement: 3
   _spawnPositions:
-  - {x: 5, y: 0, z: 0}
-  - {x: -5, y: 0, z: 0}
+  - {x: 4.5, y: 0, z: 0}
+  - {x: -4.5, y: 0, z: 0}
   _endPositions: []
   _rotationVector: {x: 0, y: 0, z: 90}
   _stepSpeed: 1
+  _particleSystem: {fileID: 0}
+  _particleStopInNegative: 1
+  _particleAxis: 0000
 --- !u!61 &2370696711440049654
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -147,7 +150,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.041269958, y: 0.71530735}
+  m_Offset: {x: -0.004802048, y: 0.71530735}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -158,7 +161,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.5850148, y: 2.4306147}
+  m_Size: {x: 3.4928708, y: 2.4306147}
   m_EdgeRadius: 0
 --- !u!1 &1230251157076524
 GameObject:

@@ -333,11 +333,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4244371300901783676}
-  - component: {fileID: 5849566610043427614}
-  - component: {fileID: 6754957004827907359}
   m_Layer: 0
   m_Name: RocketGO
-  m_TagString: obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -365,66 +363,6 @@ Transform:
   m_Father: {fileID: 8261050312894743462}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!60 &5849566610043427614
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3795220422932453027}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 1.2620952, y: 2.0288029}
-      - {x: 0.0030667484, y: 4.0998807}
-      - {x: -1.3783581, y: 2.1859436}
-      - {x: -1.9626428, y: -1.2184812}
-      - {x: -1.8102174, y: -2.7754061}
-      - {x: 1.5330685, y: -2.7700012}
-      - {x: 1.6006672, y: -1.2047496}
---- !u!114 &6754957004827907359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3795220422932453027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca45c758108543c4e8a26e83382b4a2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _obstacleMovement: 0
-  _spawnPositions:
-  - {x: 4, y: 4, z: 0}
-  - {x: 2, y: 4, z: 0}
-  - {x: -2, y: 4, z: 0}
-  - {x: -4, y: 4, z: 0}
-  _endPositions:
-  - {x: 4, y: -4, z: 0}
-  - {x: 2, y: -4, z: 0}
-  - {x: -2, y: -4, z: 0}
-  - {x: -4, y: -4, z: 0}
-  _rotationVector: {x: 0, y: 0, z: 0}
-  _stepSpeed: 0.07
-  _particleSystem: {fileID: 4117145264647505251}
-  _particleStopInNegative: 1
-  _particleAxis: 0001
 --- !u!1 &4767405082749806557
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,9 +615,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8261050312894743462}
+  - component: {fileID: 382401023242503005}
+  - component: {fileID: 1191831750595063468}
   m_Layer: 0
   m_Name: Rocket
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -699,6 +639,68 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &382401023242503005
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8501486527657623603}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.009453021, y: 2.039821}
+      - {x: -0.660256, y: 0.9197794}
+      - {x: -0.80160785, y: -0.6071018}
+      - {x: -0.75211984, y: -1.2622939}
+      - {x: 0.72617036, y: -1.2639123}
+      - {x: 0.7862967, y: -0.65777016}
+      - {x: 0.6769217, y: 0.88564503}
+--- !u!114 &1191831750595063468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8501486527657623603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca45c758108543c4e8a26e83382b4a2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _obstacleMovement: 0
+  _spawnPositions:
+  - {x: 4, y: 4, z: 0}
+  - {x: 2, y: 4, z: 0}
+  - {x: 0, y: 4, z: 0}
+  - {x: -2, y: 4, z: 0}
+  - {x: -4, y: 4, z: 0}
+  _endPositions:
+  - {x: 4, y: -4, z: 0}
+  - {x: 2, y: -4, z: 0}
+  - {x: 0, y: -4, z: 0}
+  - {x: -2, y: -4, z: 0}
+  - {x: -4, y: -4, z: 0}
+  _rotationVector: {x: 0, y: -4, z: 0}
+  _stepSpeed: 0.07
+  _particleSystem: {fileID: 4117145264647505251}
+  _particleStopInNegative: 1
+  _particleAxis: 0001
 --- !u!1 &8785836420637198580
 GameObject:
   m_ObjectHideFlags: 0

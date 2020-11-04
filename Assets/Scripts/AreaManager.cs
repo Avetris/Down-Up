@@ -22,12 +22,7 @@ public class AreaManager : MonoBehaviour
     }
 
     #endregion
-
-    public int OBSTACLE_COOLDOWN = 10;
-    public int OBSTACLES_INTER_DISTANCE = 10;
-
-
-    public GameObject[] _posibleObstacles = new GameObject[System.Enum.GetNames(typeof(ObstacleType)).Length];
+    private Dictionary<ObstacleType, GameObject> _posibleObstacles = new Dictionary<ObstacleType, GameObject>();
 
     public BallMovement _player;
     public GUIManager GUIManager;
@@ -40,10 +35,9 @@ public class AreaManager : MonoBehaviour
     {
         _player = FindObjectOfType<BallMovement>();
         GUIManager = FindObjectOfType<GUIManager>();
-        string[] obstaclesTypes = System.Enum.GetNames(typeof(ObstacleType));
-        for (int i = 0; i < obstaclesTypes.Length; i++)
+        foreach ((ObstacleType obstacle, int value)  in OBSTACLE_PROBABILITY)
         {
-            _posibleObstacles[i] = Resources.Load<GameObject>("Prefabs/"+ obstaclesTypes[i]);
+            _posibleObstacles.Add(obstacle, Resources.Load<GameObject>("Prefabs/"+ obstacle.ToString("G")));
         }
         _obstacles = new List<GameObject>();
 
@@ -76,13 +70,29 @@ public class AreaManager : MonoBehaviour
             _height = _player.transform.position.y + 20;
         }
 
-        GameObject objectToInstantiate = _posibleObstacles[Random.Range(0, _posibleObstacles.Length)];
+        GameObject objectToInstantiate = GetRandomObstacle();
         Vector3 position = Vector3.zero;
         position.y = _height;
         GameObject go = Instantiate(objectToInstantiate, position, Quaternion.identity);
         _obstacles.Add(go);
 
-        Invoke("ResetObstacleTimeout", OBSTACLE_COOLDOWN);
+        ResetObstacleTimeout();
+    }
+
+    private GameObject GetRandomObstacle() {
+        float randomValue = Random.Range(0, OBSTACLE_PROBABILITY[OBSTACLE_PROBABILITY.Length - 1].probability);
+        GameObject objectToInstantiate = null;
+
+        foreach ((ObstacleType obstacle, int value) in OBSTACLE_PROBABILITY)
+        {
+            if (randomValue <= value)
+            {
+                objectToInstantiate = _posibleObstacles[obstacle];
+                break;
+            }
+        }
+
+        return objectToInstantiate;
     }
 
     public void Restart()
