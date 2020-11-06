@@ -34,8 +34,14 @@ public class GUIManager : MonoBehaviour
 
     private GameStatus _gameStatus = GameStatus.STOPPED;
 
+    private LeaderboardManager _leaderboardManager;
+    private AdsManager _adsManager;
+
     private void Start()
     {
+        _leaderboardManager = LeaderboardManager.instance();
+        _adsManager = AdsManager.instance();
+        _adsManager.showBanner();
         ShowMenu();
     }
 
@@ -85,14 +91,16 @@ public class GUIManager : MonoBehaviour
 
     public void ShowGameOver(int puntuation)
     {
+        LeaderboardManager.instance().setPuntuation(puntuation);
         _gameStatus = GameStatus.STOPPED;
         _gamePanelGO.SetActive(false);
         _gameOverPanelGO.SetActive(true);
         _lastScoreText.text = puntuation.ToString();
+        _adsManager.showInterstical();
     }
 
     public void ShowLeaderboard()
     {
-
+        _leaderboardManager.showLeaderboard();
     }
 }

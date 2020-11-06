@@ -40,6 +40,7 @@ public class AreaManager : MonoBehaviour
             _posibleObstacles.Add(obstacle, Resources.Load<GameObject>("Prefabs/"+ obstacle.ToString("G")));
         }
         _obstacles = new List<GameObject>();
+        LeaderboardManager.instance();
 
     }
 

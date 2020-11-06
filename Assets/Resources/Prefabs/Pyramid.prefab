@@ -126,8 +126,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _obstacleMovement: 2
   _spawnPositions:
-  - {x: 5, y: 0, z: 0}
-  - {x: -5, y: 0, z: 0}
+  - {x: 5.5, y: 0, z: 0}
+  - {x: -5.5, y: 0, z: 0}
   _endPositions: []
   _rotationVector: {x: 0, y: 0, z: 90}
   _stepSpeed: 0
