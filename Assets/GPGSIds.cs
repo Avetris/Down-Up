@@ -25,6 +25,6 @@
 public static class GPGSIds
 {
         public const string leaderboard_down_up = "CgkIpsORzecZEAIQAA"; // <GPGSID>
-        public const string leaderboard_iphone_down_up = "CgkIpsORzecZEAIQAA"; // <GPGSID>
+        public const string leaderboard_iphone_down_up = "downup_classic"; // <GPGSID>
 }
 
