@@ -81,12 +81,9 @@ public class LeaderboardManager
 
 #endif
 
-        Debug.Log("Leaderboard to insert: " + score);
         int lastScore = PlayerPrefs.GetInt("Score", score);
-        Debug.Log("Last Leaderboard to insert: " + lastScore);
         if (lastScore > score)
         {
-            Debug.Log("ENTERED");
             score = lastScore;
         }
         PlayerPrefs.SetInt("Score", score);

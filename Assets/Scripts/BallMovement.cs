@@ -21,12 +21,15 @@ public class BallMovement : MonoBehaviour
 
     TrailRenderer _trailRenderer;
 
+    private AudioSource _audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _GUIManager = FindObjectOfType<GUIManager>();
         _trailRenderer = GetComponent<TrailRenderer>();
+        _audioSource = GetComponent<AudioSource>();
         _areaManager = AreaManager.Instance;
         ResetGame();
     }
@@ -109,6 +112,7 @@ public class BallMovement : MonoBehaviour
         //Debug.Log(_rigidbody.velocity);
         if ("trampoline".Equals(collision.gameObject.tag))
         {
+            _audioSource.Play();
             _rigidbody.AddForce(_rigidbody.velocity * REPULSION_FORCE, ForceMode2D.Impulse);
             //_rigidbody.velocity = _rigidbody.velocity + _rigidbody.velocity.normalized * REPULSION_FORCE;
         }else if("obstacle".Equals(collision.gameObject.tag))

@@ -32,15 +32,21 @@ public class GUIManager : MonoBehaviour
     [InspectorName("Game Over Panel")]
     public GameObject _gameOverPanelGO;
 
+    [InspectorName("Audio Clips")]
+    public AudioClip[] _audioClips;
+
     private GameStatus _gameStatus = GameStatus.STOPPED;
 
     private LeaderboardManager _leaderboardManager;
     private AdsManager _adsManager;
 
+    private AudioSource _clickAudio;
+
     private void Start()
     {
         _leaderboardManager = LeaderboardManager.instance();
         _adsManager = AdsManager.instance();
+        _clickAudio = GetComponent<AudioSource>();
         _adsManager.showBanner();
         ShowMenu();
     }
@@ -80,6 +86,7 @@ public class GUIManager : MonoBehaviour
     
     public void StartGame()
     {
+        _clickAudio.PlayOneShot(_audioClips[0]);
         _menuPanelGO.SetActive(false);
         _gameOverPanelGO.SetActive(false);
         _tutorialPanelGO.SetActive(true);
@@ -91,6 +98,7 @@ public class GUIManager : MonoBehaviour
 
     public void ShowGameOver(int puntuation)
     {
+        _clickAudio.PlayOneShot(_audioClips[1]);
         LeaderboardManager.instance().setPuntuation(puntuation);
         _gameStatus = GameStatus.STOPPED;
         _gamePanelGO.SetActive(false);
@@ -101,6 +109,7 @@ public class GUIManager : MonoBehaviour
 
     public void ShowLeaderboard()
     {
+        _clickAudio.PlayOneShot(_audioClips[0]);
         _leaderboardManager.showLeaderboard();
     }
 }
