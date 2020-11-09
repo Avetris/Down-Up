@@ -8,6 +8,7 @@ public class Splash : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        LeaderboardManager.instance();
         SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
     }
 }

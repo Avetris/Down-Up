@@ -18,6 +18,7 @@ public class AdsManager : MonoBehaviour
         {
             GameObject go = new GameObject();
             _instance = go.AddComponent<AdsManager>();
+            go.name = "Ads Manager";
         }
         return _instance;
     }
