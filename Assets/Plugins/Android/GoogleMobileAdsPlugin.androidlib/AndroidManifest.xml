@@ -3,5 +3,6 @@
   <application>
     <uses-library android:required="false" android:name="org.apache.http.legacy" />
     <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-4136978037886351~8038644687" />
+    <meta-data android:name="com.google.android.gms.ads.AD_MANAGER_APP" android:value="true" />
   </application>
 </manifest>

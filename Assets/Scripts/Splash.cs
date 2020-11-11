@@ -9,6 +9,32 @@ public class Splash : MonoBehaviour
     void Start()
     {
         LeaderboardManager.instance();
-        SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+        StartCoroutine(LoadAsynchronously());
+    }
+
+    IEnumerator LoadAsynchronously()
+    {
+
+        float timer = 0f;
+        float minLoadTime = 1f;
+
+        AsyncOperation operation = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+        operation.allowSceneActivation = false;
+
+        while (!operation.isDone)
+        {
+            float progress = Mathf.Clamp01(operation.progress / 0.9f);
+            timer += Time.deltaTime;
+
+            if (timer > minLoadTime)
+            {
+                operation.allowSceneActivation = true;
+            }
+
+            yield return null;
+        }
+
+        yield return null;
+
     }
 }
