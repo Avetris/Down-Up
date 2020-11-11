@@ -1,4 +1,4 @@
-﻿using GoogleMobileAds.Api;
+using GoogleMobileAds.Api;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -35,9 +35,9 @@ public class AdsManager : MonoBehaviour
     private void Start()
     {
     #if UNITY_ANDROID
-        string appId = !showRealAds() ? "ca-app-pub-3940256099942544/6300978111" : AdsSecrets.ADMOB_ANDROID_APPID;
+        string appId = AdsSecrets.ADMOB_ANDROID_APPID;
 #elif UNITY_IPHONE
-        string appId = !showRealAds() ? "ca-app-pub-3940256099942544/2934735716" :  AdsSecrets.ADMOB_IPHONE_APPID;
+        string appId = AdsSecrets.ADMOB_IPHONE_APPID;
 #else
         string appId = "unexpected_platform";
 #endif

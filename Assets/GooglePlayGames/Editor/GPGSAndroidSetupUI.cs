@@ -14,6 +14,7 @@
 //    limitations under the License.
 // </copyright>
 
+    #if UNITY_ANDROID
 
 namespace GooglePlayGames.Editor
 {
@@ -456,3 +457,4 @@ namespace GooglePlayGames.Editor
         }
     }
 }
+#endif
