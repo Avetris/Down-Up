@@ -104,6 +104,7 @@ public class GUIManager : MonoBehaviour
         _gamePanelGO.SetActive(false);
         _gameOverPanelGO.SetActive(true);
         _lastScoreText.text = puntuation.ToString();
+        _bestText.text = PlayerPrefs.GetInt("Score", 0).ToString();
         _adsManager.showInterstical();
     }
 
