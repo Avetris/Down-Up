@@ -16,7 +16,7 @@ public class Splash : MonoBehaviour
     {
 
         float timer = 0f;
-        float minLoadTime = 1f;
+        float minLoadTime = 0f;
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
         operation.allowSceneActivation = false;

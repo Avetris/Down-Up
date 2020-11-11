@@ -16,8 +16,7 @@ using System;
 
 using GoogleMobileAds.Api;
 
-namespace GoogleMobileAds.Common
-{
+namespace GoogleMobileAds.Common {
     public interface IInterstitialClient
     {
         // Ad event fired when the interstitial ad has been received.
@@ -51,8 +50,5 @@ namespace GoogleMobileAds.Common
 
         // Returns the mediation adapter class name.
         string MediationAdapterClassName();
-
-        // Returns ad request Response info client.
-        IResponseInfoClient GetResponseInfoClient();
     }
 }

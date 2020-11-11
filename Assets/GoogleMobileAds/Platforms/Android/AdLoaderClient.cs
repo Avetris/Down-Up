@@ -24,29 +24,32 @@ namespace GoogleMobileAds.Android
     public class AdLoaderClient : AndroidJavaProxy, IAdLoaderClient
     {
         private AndroidJavaObject adLoader;
+        private Dictionary<string, Action<CustomNativeTemplateAd, string>> CustomNativeTemplateCallbacks
+        {
+            get; set;
+        }
         public event EventHandler<AdFailedToLoadEventArgs> OnAdFailedToLoad;
-        public event EventHandler<CustomNativeClientEventArgs> OnCustomNativeTemplateAdLoaded;
-        public event EventHandler<CustomNativeClientEventArgs> OnCustomNativeTemplateAdClicked;
+        public event EventHandler<CustomNativeEventArgs> OnCustomNativeTemplateAdLoaded;
 
-        public AdLoaderClient(AdLoaderClientArgs args) : base(Utils.UnityAdLoaderListenerClassName)
+        public AdLoaderClient(AdLoader unityAdLoader) : base(Utils.UnityAdLoaderListenerClassName)
         {
             AndroidJavaClass playerClass = new AndroidJavaClass(Utils.UnityActivityClassName);
             AndroidJavaObject activity =
                 playerClass.GetStatic<AndroidJavaObject>("currentActivity");
             adLoader = new AndroidJavaObject(Utils.NativeAdLoaderClassName, activity,
-                args.AdUnitId, this);
+                unityAdLoader.AdUnitId, this);
+
+            this.CustomNativeTemplateCallbacks = unityAdLoader.CustomNativeTemplateClickHandlers;
 
             bool supportsRequestImageAssetUrls = false;
 
-            if (args.AdTypes.Contains(NativeAdType.CustomTemplate))
+            if (unityAdLoader.AdTypes.Contains(NativeAdType.CustomTemplate))
             {
                 supportsRequestImageAssetUrls = false;
-                foreach (var keyValuePair in args.TemplateIds)
+                foreach (string templateId in unityAdLoader.TemplateIds)
                 {
-                    string templateID = keyValuePair.Key;
-                    bool hasHandler = keyValuePair.Value;
-                    adLoader.Call("configureCustomNativeTemplateAd", templateID,
-                        hasHandler);
+                    adLoader.Call("configureCustomNativeTemplateAd", templateId,
+                        this.CustomNativeTemplateCallbacks.ContainsKey(templateId));
                 }
             }
             if (supportsRequestImageAssetUrls) {
@@ -64,10 +67,9 @@ namespace GoogleMobileAds.Android
         {
             if (this.OnCustomNativeTemplateAdLoaded != null)
             {
-                CustomNativeClientEventArgs args = new CustomNativeClientEventArgs()
+                CustomNativeEventArgs args = new CustomNativeEventArgs()
                 {
-                    nativeAdClient = new CustomNativeTemplateClient(ad),
-                    assetName = null
+                    nativeAd = new CustomNativeTemplateAd(new CustomNativeTemplateClient(ad))
                 };
                 this.OnCustomNativeTemplateAdLoaded(this, args);
             }
@@ -84,15 +86,11 @@ namespace GoogleMobileAds.Android
 
         public void onCustomClick(AndroidJavaObject ad, string assetName)
         {
-          if (this.OnCustomNativeTemplateAdClicked != null)
-          {
-              CustomNativeClientEventArgs args = new CustomNativeClientEventArgs()
-              {
-                  nativeAdClient = new CustomNativeTemplateClient(ad),
-                  assetName = assetName
-              };
-              this.OnCustomNativeTemplateAdClicked(this, args);
-          }
+            CustomNativeTemplateAd nativeAd = new CustomNativeTemplateAd(
+                    new CustomNativeTemplateClient(ad));
+            this.CustomNativeTemplateCallbacks[nativeAd.GetCustomTemplateId()](nativeAd, assetName);
         }
     }
 }
+
+

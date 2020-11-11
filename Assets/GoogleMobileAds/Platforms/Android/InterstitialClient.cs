@@ -83,13 +83,6 @@ namespace GoogleMobileAds.Android
             return this.interstitial.Call<string>("getMediationAdapterClassName");
         }
 
-        // Returns ad request response info
-        public IResponseInfoClient GetResponseInfoClient()
-        {
-
-            return new ResponseInfoClient(this.interstitial);
-        }
-
         #endregion
 
         #region Callbacks from UnityInterstitialAdListener.
@@ -142,18 +135,17 @@ namespace GoogleMobileAds.Android
         {
             if (this.OnPaidEvent != null)
             {
-                AdValue adValue = new AdValue()
-                {
-                    Precision = (AdValue.PrecisionType)precision,
-                    Value = valueInMicros,
-                    CurrencyCode = currencyCode
-                };
-                AdValueEventArgs args = new AdValueEventArgs()
-                {
-                    AdValue = adValue
-                };
+              AdValue adValue = new AdValue()
+              {
+                  Precision = (AdValue.PrecisionType)precision,
+                  Value = valueInMicros,
+                  CurrencyCode = currencyCode
+              };
+              AdValueEventArgs args = new AdValueEventArgs() {
+                  AdValue = adValue
+              };
 
-                this.OnPaidEvent(this, args);
+              this.OnPaidEvent(this, args);
             }
         }
 
@@ -161,3 +153,5 @@ namespace GoogleMobileAds.Android
         #endregion
     }
 }
+
+

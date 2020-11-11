@@ -76,9 +76,6 @@
 // Returns the mediation adapter class name.
 @property(nonatomic, readonly, copy) NSString *mediationAdapterClassName;
 
-// Returns the banner ad response info.
-@property(nonatomic, readonly, copy) GADResponseInfo *responseInfo;
-
 // Returns the height of the banner view in pixels.
 @property(nonatomic, readonly) CGFloat heightInPixels;
 

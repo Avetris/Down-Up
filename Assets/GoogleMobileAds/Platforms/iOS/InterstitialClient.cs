@@ -1,4 +1,3 @@
-#if UNITY_IOS
 // Copyright (C) 2015 Google, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -128,11 +127,6 @@ namespace GoogleMobileAds.iOS
             return Utils.PtrToString(Externs.GADUMediationAdapterClassNameForInterstitial(this.InterstitialPtr));
         }
 
-        public IResponseInfoClient GetResponseInfoClient()
-        {
-            return new ResponseInfoClient(this.InterstitialPtr);
-        }
-
         public void Dispose()
         {
             this.DestroyInterstitial();
@@ -217,8 +211,7 @@ namespace GoogleMobileAds.iOS
                     Value = value,
                     CurrencyCode = currencyCode
                 };
-                AdValueEventArgs args = new AdValueEventArgs()
-                {
+                AdValueEventArgs args = new AdValueEventArgs() {
                     AdValue = adValue
                 };
 
@@ -236,6 +229,5 @@ namespace GoogleMobileAds.iOS
         #endregion
     }
 }
-#endif
 
 

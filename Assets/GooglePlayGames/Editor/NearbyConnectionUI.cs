@@ -13,7 +13,6 @@
 //  See the License for the specific language governing permissions and
 //    limitations under the License.
 // </copyright>
-
 #if UNITY_ANDROID
 
 namespace GooglePlayGames.Editor
@@ -34,13 +33,12 @@ namespace GooglePlayGames.Editor
         }
 
         [MenuItem("Window/Google Play Games/Setup/Nearby Connections setup...", true)]
-        public static bool EnableNearbyMenuItem()
-        {
-#if UNITY_ANDROID
+        public static bool EnableNearbyMenuItem() {
+        #if UNITY_ANDROID
             return true;
-#else
+        #else
             return false;
-#endif
+        #endif
         }
 
         public void OnEnable()
@@ -60,7 +58,7 @@ namespace GooglePlayGames.Editor
             GUILayout.Space(10);
             GUILayout.Label(GPGSStrings.Setup.NearbyServiceBlurb);
             mNearbyServiceId = EditorGUILayout.TextField(GPGSStrings.Setup.NearbyServiceId,
-                mNearbyServiceId, GUILayout.Width(350));
+                mNearbyServiceId,GUILayout.Width(350));
 
             GUILayout.FlexibleSpace();
             GUILayout.BeginHorizontal();
@@ -70,7 +68,6 @@ namespace GooglePlayGames.Editor
             {
                 DoSetup();
             }
-
             if (GUILayout.Button("Cancel", GUILayout.Width(100)))
             {
                 this.Close();
@@ -114,12 +111,13 @@ namespace GooglePlayGames.Editor
                 {
                     return false;
                 }
-            }
-            else
-            {
-                GPGSProjectSettings.Instance.Set(GPGSUtil.SERVICEIDKEY, nearbyServiceId);
-                GPGSProjectSettings.Instance.Save();
-            }
+
+             }
+             else
+             {
+                 GPGSProjectSettings.Instance.Set(GPGSUtil.SERVICEIDKEY, nearbyServiceId);
+                 GPGSProjectSettings.Instance.Save();
+             }
 
             if (androidBuild)
             {
@@ -141,11 +139,10 @@ namespace GooglePlayGames.Editor
 
                 Google.VersionHandler.InvokeStaticMethod(
                     Google.VersionHandler.FindClass(
-                        "Google.JarResolver",
-                        "GooglePlayServices.PlayServicesResolver"),
-                    "MenuResolve", null);
+                   "Google.JarResolver",
+                   "GooglePlayServices.PlayServicesResolver"),
+                   "MenuResolve", null);
             }
-
             return true;
         }
     }

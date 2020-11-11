@@ -21,6 +21,11 @@ using GoogleMobileAds.Common;
 
 namespace GoogleMobileAds.Api
 {
+    public enum NativeAdType
+    {
+        CustomTemplate
+    }
+
     public class AdLoader
     {
         private IAdLoaderClient adLoaderClient;
@@ -33,43 +38,14 @@ namespace GoogleMobileAds.Api
                     builder.CustomNativeTemplateClickHandlers);
             this.TemplateIds = new HashSet<string>(builder.TemplateIds);
             this.AdTypes = new HashSet<NativeAdType>(builder.AdTypes);
-
-            Dictionary<string, bool> templateIdsDictionary = new Dictionary<string, bool>();
-            foreach(string templateId in TemplateIds)
-            {
-              templateIdsDictionary[templateId] = false;
-            }
-            foreach (var keyValuePair in this.CustomNativeTemplateClickHandlers)
-            {
-              templateIdsDictionary[keyValuePair.Key] = true;
-            }
-            AdLoaderClientArgs clientArgs = new AdLoaderClientArgs(){
-                  AdUnitId = this.AdUnitId,
-                  AdTypes = this.AdTypes,
-                  TemplateIds = templateIdsDictionary
-              };
-            this.adLoaderClient = MobileAds.GetClientFactory().BuildAdLoaderClient(clientArgs);
+            this.adLoaderClient = GoogleMobileAdsClientFactory.BuildAdLoaderClient(this);
 
             Utils.CheckInitialization();
 
             this.adLoaderClient.OnCustomNativeTemplateAdLoaded +=
-                    delegate (object sender, CustomNativeClientEventArgs args)
+                    delegate (object sender, CustomNativeEventArgs args)
             {
-                CustomNativeTemplateAd nativeAd = new CustomNativeTemplateAd(args.nativeAdClient);
-                CustomNativeEventArgs adEventArgs = new CustomNativeEventArgs()
-                {
-                    nativeAd = nativeAd
-                };
-                this.OnCustomNativeTemplateAdLoaded(this, adEventArgs);
-            };
-            this.adLoaderClient.OnCustomNativeTemplateAdClicked +=
-                     delegate (object sender, CustomNativeClientEventArgs args)
-            {
-                CustomNativeTemplateAd nativeAd = new CustomNativeTemplateAd(args.nativeAdClient);
-                if (this.CustomNativeTemplateClickHandlers.ContainsKey(nativeAd.GetCustomTemplateId()))
-                {
-                    this.CustomNativeTemplateClickHandlers[nativeAd.GetCustomTemplateId()](nativeAd, args.assetName);
-                }
+                this.OnCustomNativeTemplateAdLoaded(this, args);
             };
             this.adLoaderClient.OnAdFailedToLoad += delegate (
                 object sender, AdFailedToLoadEventArgs args)

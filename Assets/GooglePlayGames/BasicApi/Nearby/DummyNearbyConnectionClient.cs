@@ -13,7 +13,6 @@
 //  See the License for the specific language governing permissions and
 //    limitations under the License.
 // </copyright>
-
 #if UNITY_ANDROID
 
 namespace GooglePlayGames.BasicApi.Nearby
@@ -22,6 +21,8 @@ namespace GooglePlayGames.BasicApi.Nearby
 
     public class DummyNearbyConnectionClient : INearbyConnectionClient
     {
+
+
         public int MaxUnreliableMessagePayloadLength()
         {
             return NearbyConnectionConfiguration.MaxUnreliableMessagePayloadLength;
@@ -42,9 +43,7 @@ namespace GooglePlayGames.BasicApi.Nearby
             Debug.LogError("SendUnreliable called from dummy implementation");
         }
 
-        public void StartAdvertising(string name, System.Collections.Generic.List<string> appIdentifiers,
-            System.TimeSpan? advertisingDuration, System.Action<AdvertisingResult> resultCallback,
-            System.Action<ConnectionRequest> connectionRequestCallback)
+        public void StartAdvertising(string name, System.Collections.Generic.List<string> appIdentifiers, System.TimeSpan? advertisingDuration, System.Action<AdvertisingResult> resultCallback, System.Action<ConnectionRequest> connectionRequestCallback)
         {
             AdvertisingResult obj = new AdvertisingResult(ResponseStatus.LicenseCheckFailed, string.Empty);
             resultCallback.Invoke(obj);
@@ -55,8 +54,7 @@ namespace GooglePlayGames.BasicApi.Nearby
             Debug.LogError("StopAvertising in dummy implementation called");
         }
 
-        public void SendConnectionRequest(string name, string remoteEndpointId, byte[] payload,
-            System.Action<ConnectionResponse> responseCallback, IMessageListener listener)
+        public void SendConnectionRequest(string name, string remoteEndpointId, byte[] payload, System.Action<ConnectionResponse> responseCallback, IMessageListener listener)
         {
             Debug.LogError("SendConnectionRequest called from dummy implementation");
 

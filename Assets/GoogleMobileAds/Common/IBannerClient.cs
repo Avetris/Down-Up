@@ -16,8 +16,7 @@ using System;
 
 using GoogleMobileAds.Api;
 
-namespace GoogleMobileAds.Common
-{
+namespace GoogleMobileAds.Common {
     public interface IBannerClient
     {
         // Ad event fired when the banner ad has been received.
@@ -57,7 +56,7 @@ namespace GoogleMobileAds.Common
         // Returns the width of the BannerView in pixels.
         float GetWidthInPixels();
 
-        // Set the position of the banner view using standard position.
+      // Set the position of the banner view using standard position.
         void SetPosition(AdPosition adPosition);
 
         // Set the position of the banner view using custom position.
@@ -65,10 +64,5 @@ namespace GoogleMobileAds.Common
 
         // Returns the mediation adapter class name.
         string MediationAdapterClassName();
-
-        // Returns ad request Response info client.
-        IResponseInfoClient GetResponseInfoClient();
-
-
     }
 }

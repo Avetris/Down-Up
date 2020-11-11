@@ -89,11 +89,5 @@ namespace GoogleMobileAds.Common
         {
             Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
-
-        public IResponseInfoClient GetResponseInfoClient()
-        {
-            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
-            return null;
-        }
     }
 }

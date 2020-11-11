@@ -62,10 +62,6 @@
   return self.interstitial.responseInfo.adNetworkClassName;
 }
 
-- (GADResponseInfo *)responseInfo {
-  return self.interstitial.responseInfo;
-}
-
 #pragma mark GADInterstitialDelegate implementation
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
@@ -76,7 +72,7 @@
 - (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
   if (self.adFailedCallback) {
     NSString *errorMsg = [NSString
-        stringWithFormat:@"Failed to receive ad with error: %@", [error localizedDescription]];
+        stringWithFormat:@"Failed to receive ad with error: %@", [error localizedFailureReason]];
     self.adFailedCallback(self.interstitialClient,
                           [errorMsg cStringUsingEncoding:NSUTF8StringEncoding]);
   }

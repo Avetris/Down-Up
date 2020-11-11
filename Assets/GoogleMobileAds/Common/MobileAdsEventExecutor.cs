@@ -60,7 +60,6 @@ namespace GoogleMobileAds.Common
                 adEventsQueueEmpty = false;
             }
         }
-
         public void Update()
         {
             if (adEventsQueueEmpty)
@@ -79,10 +78,7 @@ namespace GoogleMobileAds.Common
 
             foreach (Action stagedEvent in stagedAdEventsQueue)
             {
-                if (stagedEvent.Target != null)
-                {
-                    stagedEvent.Invoke();
-                }
+                stagedEvent.Invoke();
             }
         }
 

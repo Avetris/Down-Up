@@ -13,7 +13,6 @@
 //  See the License for the specific language governing permissions and
 //    limitations under the License.
 // </copyright>
-
 #if UNITY_ANDROID
 
 namespace GooglePlayGames
@@ -41,7 +40,7 @@ namespace GooglePlayGames
             mLbId = leaderboardID;
             this.mRank = rank;
             this.mPlayerId = playerId;
-            this.mValue = (long) value;
+            this.mValue = (long)value;
             this.mMetadata = metadata;
         }
 
@@ -61,9 +60,15 @@ namespace GooglePlayGames
         /// </returns>
         public string leaderboardID
         {
-            get { return mLbId; }
+            get
+            {
+                return mLbId;
+            }
 
-            set { mLbId = value; }
+            set
+            {
+                mLbId = value;
+            }
         }
 
         /// <summary>
@@ -74,9 +79,15 @@ namespace GooglePlayGames
         /// </returns>
         public long value
         {
-            get { return mValue; }
+            get
+            {
+                return mValue;
+            }
 
-            set { mValue = value; }
+            set
+            {
+                mValue = value;
+            }
         }
 
         /// <summary>
@@ -84,7 +95,10 @@ namespace GooglePlayGames
         /// </summary>
         public DateTime date
         {
-            get { return mDate; }
+            get
+            {
+                return mDate;
+            }
         }
 
         /// <summary>
@@ -92,7 +106,10 @@ namespace GooglePlayGames
         /// </summary>
         public string formattedValue
         {
-            get { return mValue.ToString(); }
+            get
+            {
+                return mValue.ToString();
+            }
         }
 
         /// <summary>
@@ -100,7 +117,10 @@ namespace GooglePlayGames
         /// </summary>
         public string userID
         {
-            get { return mPlayerId; }
+            get
+            {
+                return mPlayerId;
+            }
         }
 
         /// <summary>
@@ -108,7 +128,10 @@ namespace GooglePlayGames
         /// </summary>
         public int rank
         {
-            get { return (int) mRank; }
+            get
+            {
+                return (int)mRank;
+            }
         }
 
         /// <summary>
@@ -119,7 +142,10 @@ namespace GooglePlayGames
         /// </returns>
         public string metaData
         {
-            get { return mMetadata; }
+            get 
+            {
+                return mMetadata;
+            }
         }
     }
 }

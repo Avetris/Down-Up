@@ -32,18 +32,18 @@ public class AdsManager : MonoBehaviour
         return !Application.isEditor && !Debug.isDebugBuild;
     }
 
-    private void Awake()
+    private void Start()
     {
     #if UNITY_ANDROID
         string appId = !showRealAds() ? "ca-app-pub-3940256099942544/6300978111" : AdsSecrets.ADMOB_ANDROID_APPID;
 #elif UNITY_IPHONE
-        string appId = !showRealAds()? "ca-app-pub-3940256099942544/2934735716" :  AdsSecrets.ADMOB_IPHONE_APPID;
+        string appId = !showRealAds() ? "ca-app-pub-3940256099942544/2934735716" :  AdsSecrets.ADMOB_IPHONE_APPID;
 #else
         string appId = "unexpected_platform";
 #endif
 
         // Initialize the Google Mobile Ads SDK.
-        MobileAds.Initialize(initStatus => { });
+        MobileAds.Initialize(appId);
         requestInterstical();
     }
 
@@ -52,7 +52,7 @@ public class AdsManager : MonoBehaviour
 #if UNITY_ANDROID
         string adUnitId = !showRealAds() ? "ca-app-pub-3940256099942544/6300978111" : AdsSecrets.ADMOB_ANDROID_BANNER;
 #elif UNITY_IPHONE
-        string adUnitId =  !showRealAds() ? "ca-app-pub-3940256099942544/6300978111" : AdsSecrets.ADMOB_IPHONE_BANNER;
+        string adUnitId = !showRealAds() ? "ca-app-pub-3940256099942544/2934735716" : AdsSecrets.ADMOB_IPHONE_BANNER;
 #else
         string adUnitId = "unexpected_platform";
 #endif
@@ -94,7 +94,7 @@ public class AdsManager : MonoBehaviour
 #if UNITY_ANDROID
         string adUnitId = !showRealAds() ? "ca-app-pub-3940256099942544/1033173712" : AdsSecrets.ADMOB_ANDROID_INSTERSTICAL;
 #elif UNITY_IPHONE
-        string adUnitId =  !showRealAds() ? "ca-app-pub-3940256099942544/4411468910" : AdsSecrets.ADMOB_IPHONE_INSTERSTICAL;
+        string adUnitId = !showRealAds() ? "ca-app-pub-3940256099942544/4411468910" : AdsSecrets.ADMOB_IPHONE_INSTERSTICAL;
 #else
         string adUnitId = "unexpected_platform";
 #endif
@@ -137,7 +137,7 @@ public class AdsManager : MonoBehaviour
         {
             _interstitial.Destroy();
         }
-        if (SceneManager.GetActiveScene().name.Equals("GameScene"))
+        if (SceneManager.GetActiveScene().name.Equals("MainScene"))
         {
             PlayerPrefs.SetInt(PP_GAMES_TO_AD, PlayerPrefs.GetInt(PP_GAMES_TO_AD, MAX_GAMES) - 1);
         }

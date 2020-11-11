@@ -13,7 +13,6 @@
 //  See the License for the specific language governing permissions and
 //    limitations under the License.
 // </copyright>
-
 #if UNITY_ANDROID
 
 namespace GooglePlayGames
@@ -56,42 +55,78 @@ namespace GooglePlayGames
 
         public bool loading
         {
-            get { return mLoading; }
-            internal set { mLoading = value; }
+            get
+            {
+                return mLoading;
+            }
+            internal set
+            {
+                mLoading = value;
+            }
         }
 
         public string id
         {
-            get { return mId; }
-            set { mId = value; }
+            get
+            {
+                return mId;
+            }
+            set
+            {
+                mId = value;
+            }
         }
 
         public UserScope userScope
         {
-            get { return mUserScope; }
-            set { mUserScope = value; }
+            get
+            {
+                return mUserScope;
+            }
+            set
+            {
+                mUserScope = value;
+            }
         }
 
         public Range range
         {
-            get { return mRange; }
-            set { mRange = value; }
+            get
+            {
+                return mRange;
+            }
+            set
+            {
+                mRange = value;
+            }
         }
 
         public TimeScope timeScope
         {
-            get { return mTimeScope; }
-            set { mTimeScope = value; }
+            get
+            {
+                return mTimeScope;
+            }
+            set
+            {
+                mTimeScope = value;
+            }
         }
 
         public IScore localUserScore
         {
-            get { return mLocalUserScore; }
+            get
+            {
+                return mLocalUserScore;
+            }
         }
 
         public uint maxRange
         {
-            get { return mMaxRange; }
+            get
+            {
+                return mMaxRange;
+            }
         }
 
         public IScore[] scores
@@ -106,7 +141,10 @@ namespace GooglePlayGames
 
         public string title
         {
-            get { return mTitle; }
+            get
+            {
+                return mTitle;
+            }
         }
 
         #endregion
@@ -118,12 +156,11 @@ namespace GooglePlayGames
                 Debug.Log("Setting leaderboard from: " + data);
                 SetMaxRange(data.ApproximateCount);
                 SetTitle(data.Title);
-                SetLocalUserScore((PlayGamesScore) data.PlayerScore);
+                SetLocalUserScore((PlayGamesScore)data.PlayerScore);
                 foreach (IScore score in data.Scores)
                 {
-                    AddScore((PlayGamesScore) score);
+                    AddScore((PlayGamesScore)score);
                 }
-
                 mLoading = data.Scores.Length == 0 || HasAllScores();
             }
 
@@ -132,7 +169,7 @@ namespace GooglePlayGames
 
         internal void SetMaxRange(ulong val)
         {
-            mMaxRange = (uint) val;
+            mMaxRange = (uint)val;
         }
 
         internal void SetTitle(string value)
@@ -160,16 +197,17 @@ namespace GooglePlayGames
                         return mScoreList.Count;
                     }
                 }
-
                 mScoreList.Add(score);
             }
-
             return mScoreList.Count;
         }
 
         public int ScoreCount
         {
-            get { return mScoreList.Count; }
+            get
+            {
+                return mScoreList.Count;
+            }
         }
 
         internal bool HasAllScores()

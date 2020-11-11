@@ -1,4 +1,3 @@
-#if UNITY_IOS
 // Copyright (C) 2016 Google, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
@@ -37,27 +35,29 @@ namespace GoogleMobileAds.iOS
         private IntPtr adLoaderPtr;
         private IntPtr adLoaderClientPtr;
         private NativeAdTypes adTypes;
-        // Dictionary of template Ids and whether they have a click callback registered.
-        Dictionary<string, bool> TemplateIds;
 
-        public AdLoaderClient(AdLoaderClientArgs clientArgs)
+        private Dictionary<string, Action<CustomNativeTemplateAd, string>>
+            customNativeTemplateCallbacks;
+
+        public AdLoaderClient(AdLoader unityAdLoader)
         {
             this.adLoaderClientPtr = (IntPtr)GCHandle.Alloc(this);
-            this.TemplateIds = clientArgs.TemplateIds;
-            string[] templateIdsArray = new string[TemplateIds.Keys.Count];
-            TemplateIds.Keys.ToList().CopyTo(templateIdsArray);
+
+            this.customNativeTemplateCallbacks = unityAdLoader.CustomNativeTemplateClickHandlers;
+            string[] templateIdsArray = new string[unityAdLoader.TemplateIds.Count];
+            unityAdLoader.TemplateIds.CopyTo(templateIdsArray);
 
             this.adTypes = new NativeAdTypes();
             bool configureReturnUrlsForImageAssets = false;
 
-            if (clientArgs.AdTypes.Contains(NativeAdType.CustomTemplate))
+            if (unityAdLoader.AdTypes.Contains(NativeAdType.CustomTemplate))
             {
                 configureReturnUrlsForImageAssets = false;
                 adTypes.CustomTemplateAd = 1;
             }
             this.AdLoaderPtr = Externs.GADUCreateAdLoader(
                 this.adLoaderClientPtr,
-                clientArgs.AdUnitId,
+                unityAdLoader.AdUnitId,
                 templateIdsArray,
                 templateIdsArray.Length,
                 ref adTypes,
@@ -75,9 +75,7 @@ namespace GoogleMobileAds.iOS
         internal delegate void GADUAdLoaderDidFailToReceiveAdWithErrorCallback(
             IntPtr AdLoader, string error);
 
-        public event EventHandler<CustomNativeClientEventArgs> OnCustomNativeTemplateAdLoaded;
-
-        public event EventHandler<CustomNativeClientEventArgs> OnCustomNativeTemplateAdClicked;
+        public event EventHandler<CustomNativeEventArgs> OnCustomNativeTemplateAdLoaded;
 
         public event EventHandler<AdFailedToLoadEventArgs> OnAdFailedToLoad;
 
@@ -125,33 +123,16 @@ namespace GoogleMobileAds.iOS
             IntPtr adLoader, IntPtr nativeCustomTemplateAd, string templateID)
         {
             AdLoaderClient client = IntPtrToAdLoaderClient(adLoader);
-            CustomNativeTemplateClient adClient = new CustomNativeTemplateClient(
-                nativeCustomTemplateAd);
-            if (client.OnCustomNativeTemplateAdClicked != null &&
-                  client.TemplateIds[templateID] == true)
-            {
-                WeakReference weakClient = new WeakReference(adClient);
-                adClient.clickHandler = delegate(string assetName)
-                                    {
-                                        if (weakClient.IsAlive)
-                                        {
-                                            CustomNativeTemplateClient strongClient = weakClient.Target as CustomNativeTemplateClient;
-                                            CustomNativeClientEventArgs args = new CustomNativeClientEventArgs()
-                                            {
-                                                nativeAdClient = strongClient,
-                                                assetName = assetName
-                                            };
-                                            client.OnCustomNativeTemplateAdClicked(client, args);
-                                        }
-                                    };
-            }
+            Action<CustomNativeTemplateAd, string> clickHandler =
+                    client.customNativeTemplateCallbacks.ContainsKey(templateID) ?
+                    client.customNativeTemplateCallbacks[templateID] : null;
 
             if (client.OnCustomNativeTemplateAdLoaded != null)
             {
-                CustomNativeClientEventArgs args = new CustomNativeClientEventArgs()
+                CustomNativeEventArgs args = new CustomNativeEventArgs()
                 {
-                    nativeAdClient = adClient,
-                    assetName = null
+                    nativeAd = new CustomNativeTemplateAd(new CustomNativeTemplateClient(
+                        nativeCustomTemplateAd, clickHandler))
                 };
                 client.OnCustomNativeTemplateAdLoaded(client, args);
             }
@@ -179,4 +160,3 @@ namespace GoogleMobileAds.iOS
         }
     }
 }
-#endif

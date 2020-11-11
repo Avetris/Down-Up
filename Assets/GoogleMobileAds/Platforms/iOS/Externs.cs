@@ -1,4 +1,3 @@
-#if UNITY_IOS
 // Copyright (C) 2015 Google, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,9 +28,6 @@ namespace GoogleMobileAds.iOS
         [DllImport("__Internal")]
         internal static extern void GADUInitializeWithCallback(
             IntPtr mobileAdsClient, MobileAdsClient.GADUInitializationCompleteCallback callback);
-
-        [DllImport("__Internal")]
-        internal static extern void GADUDisableMediationInitialization();
 
         [DllImport("__Internal")]
         internal static extern IntPtr GADUGetInitDescription(IntPtr status, string className);
@@ -106,39 +102,6 @@ namespace GoogleMobileAds.iOS
 
         [DllImport("__Internal")]
         internal static extern void GADURelease(IntPtr obj);
-
-        [DllImport("__Internal")]
-        internal static extern IntPtr GADUCreateRequestConfiguration();
-
-        [DllImport("__Internal")]
-        internal static extern void GADUSetRequestConfiguration(IntPtr requestConfiguration);
-
-        [DllImport("__Internal")]
-        internal static extern void GADUSetRequestConfigurationTestDeviceIdentifiers(IntPtr requestConfiguration, string[] testDeviceIDs, int testDeviceIDLength);
-
-        [DllImport("__Internal")]
-        internal static extern void GADUSetRequestConfigurationMaxAdContentRating(IntPtr requestConfiguration, string maxAdContentRating);
-
-        [DllImport("__Internal")]
-        internal static extern void GADUSetRequestConfigurationTagForUnderAgeOfConsent(IntPtr requestConfiguration, int tagForUnderAgeOfConsent);
-
-        [DllImport("__Internal")]
-        internal static extern void GADUSetRequestConfigurationTagForChildDirectedTreatment(IntPtr requestConfiguration, int tagForChildDirectedTreatment);
-
-        [DllImport("__Internal")]
-        internal static extern IntPtr GADUGetTestDeviceIdentifiers(IntPtr request);
-
-        [DllImport("__Internal")]
-        internal static extern int GADUGetTestDeviceIdentifiersCount(IntPtr request);
-
-        [DllImport("__Internal")]
-        internal static extern string GADUGetMaxAdContentRating(IntPtr requestConfiguration);
-
-        [DllImport("__Internal")]
-        internal static extern int GADUGetRequestConfigurationTagForUnderAgeOfConsent(IntPtr requestConfiguration);
-
-        [DllImport("__Internal")]
-        internal static extern int GADUGetRequestConfigurationTagForChildDirectedTreatment(IntPtr requestConfiguration);
 
         #endregion
 
@@ -219,18 +182,6 @@ namespace GoogleMobileAds.iOS
 
         [DllImport("__Internal")]
         internal static extern IntPtr GADUMediationAdapterClassNameForBannerView(IntPtr bannerView);
-
-        [DllImport("__Internal")]
-        internal static extern IntPtr GADUGetResponseInfo(IntPtr adFormat);
-
-        [DllImport("__Internal")]
-        internal static extern string GADUResponseInfoMediationAdapterClassName(IntPtr responseInfo);
-
-        [DllImport("__Internal")]
-        internal static extern string GADUResponseInfoResponseId(IntPtr responseInfo);
-
-        [DllImport("__Internal")]
-        internal static extern string GADUGetResponseInfoDescription(IntPtr responseInfo);
 
         #endregion
 
@@ -423,4 +374,3 @@ namespace GoogleMobileAds.iOS
         #endregion
     }
 }
-#endif

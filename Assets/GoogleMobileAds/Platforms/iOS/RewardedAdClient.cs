@@ -1,4 +1,3 @@
-#if UNITY_IOS
 // Copyright (C) 2018 Google, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -133,13 +132,13 @@ namespace GoogleMobileAds.iOS
         // Returns the reward item for the loaded rewarded ad.
         public Reward GetRewardItem()
         {
-            string type = Externs.GADURewardedAdGetRewardType(this.RewardedAdPtr);
-            double amount = Externs.GADURewardedAdGetRewardAmount(this.RewardedAdPtr); ;
-            return new Reward()
-            {
-                Type = type,
-                Amount = amount
-            };
+          string type = Externs.GADURewardedAdGetRewardType(this.RewardedAdPtr);
+          double amount = Externs.GADURewardedAdGetRewardAmount(this.RewardedAdPtr);;
+          return new Reward()
+          {
+              Type = type,
+              Amount = amount
+          };
         }
 
         // Returns the mediation adapter class name.
@@ -147,11 +146,6 @@ namespace GoogleMobileAds.iOS
         {
             return Utils.PtrToString(
                 Externs.GADUMediationAdapterClassNameForRewardedAd(this.RewardedAdPtr));
-        }
-
-        public IResponseInfoClient GetResponseInfoClient()
-        {
-            return new ResponseInfoClient(this.RewardedAdPtr);
         }
 
         // Destroys the rewarded ad.
@@ -267,8 +261,7 @@ namespace GoogleMobileAds.iOS
                     Value = value,
                     CurrencyCode = currencyCode
                 };
-                AdValueEventArgs args = new AdValueEventArgs()
-                {
+                AdValueEventArgs args = new AdValueEventArgs() {
                     AdValue = adValue
                 };
 
@@ -287,4 +280,3 @@ namespace GoogleMobileAds.iOS
         #endregion
     }
 }
-#endif
